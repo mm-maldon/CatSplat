@@ -5,6 +5,8 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
 
     preload() {
         this.load.image('harold', 'assets/harold.png');
+        this.load.image('meteor', 'assets/meteor.png');
+        this.load.image('gameover', 'assets/gameover.png');
     }
 
     create() {
