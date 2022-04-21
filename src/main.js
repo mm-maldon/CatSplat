@@ -1,8 +1,10 @@
 let config = {
     type: Phaser.CANVAS,
     width: 640,
-    height: 480,
+    height: 740,
     scene: [Menu, Play],
 };
+
+let keyLEFT, keyRIGHT;
 
 let game = new Phaser.Game(config);

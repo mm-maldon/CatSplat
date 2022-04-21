@@ -9,9 +9,10 @@ class Cat extends Phaser.GameObjects.Sprite {
     }
 
     update() { 
-        if(keyLEFT.isDown && this.x >= this.width) {  //MOVEMENT CODE.  Untested.  still need to add listeners and stuff for arrow keys
+        //console.log(this.x, " > ", this.width*this.scale);
+        if (keyLEFT.isDown && this.x > this.width*this.scale) {
             this.x -= this.moveSpeed;
-        } else if (keyRIGHT.isDown && this.x <= game.config.width + this.width) {
+        } else if (keyRIGHT.isDown && this.x < game.config.width - this.width*this.scale) {
             this.x += this.moveSpeed;
         }
     }
