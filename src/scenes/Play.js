@@ -7,11 +7,11 @@ class Play extends Phaser.Scene {
     }
 
     create() {
-        this.harold = this.add.tileSprite(0, 0, 440, 440, 'harold').setOrigin(0,0);
+        this.harold = new Cat(this, game.config.width/2, game.config.height/10, 'harold', 0).setOrigin(0.5, 0.5);
         this.harold.setScale(0.2);
     }
 
     update() {
-
+        //implement movement listening here
     }
 }

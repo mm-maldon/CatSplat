@@ -1,4 +1,4 @@
-class Menu extends Phaser.Scene {
+class Menu extends Phaser.Scene { //we can use menu to load all the assets for now
     constructor() {
         super("menu");
     }
@@ -8,12 +8,7 @@ class Menu extends Phaser.Scene {
     }
 
     create() {
-        this.harold = this.add.tileSprite(0, 200, 440, 440, 'harold').setOrigin(0,0);
-        this.harold.setScale(0.2);
-        this.harold.setInteractive();
-        this.harold.on('pointerup', () => {
-            this.scene.start('play');
-        });
+        this.scene.start('play');
     }
 
     update() {
