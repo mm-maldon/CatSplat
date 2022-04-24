@@ -4,13 +4,13 @@ class Cat extends Phaser.GameObjects.Sprite {
 
         scene.add.existing(this);
         this.fish = 3;     //fish is health.
-        this.moveSpeed = 2;
+        this.moveSpeed = 4;
         this.velocity = 2;       //we probably won't need this until we implement arcade physics
     }
 
     update() { 
         //console.log(this.x, " > ", this.width*this.scale);
-        if (keyLEFT.isDown && this.x > this.width*this.scale) {
+        if (keyLEFT.isDown && this.x > this.width*this.scale - 90) {
             this.x -= this.moveSpeed;
         } else if (keyRIGHT.isDown && this.x < game.config.width - this.width*this.scale) {
             this.x += this.moveSpeed;

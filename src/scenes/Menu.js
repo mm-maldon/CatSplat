@@ -10,6 +10,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('gameover', 'assets/gameover.png');
         this.load.image('space', 'assets/space.png');
         this.load.audio('fard', 'assets/fard.wav');
+        this.load.audio('fireball', 'assets/fireball.wav');
     }
 
     create() {
