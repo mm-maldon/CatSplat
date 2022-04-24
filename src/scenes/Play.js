@@ -1,4 +1,4 @@
-class Play extends Phaser.Scene {
+class Play extends Phaser.Scene {//comment
     constructor() {
         super("play");
         this.ded = 0;
@@ -24,9 +24,22 @@ class Play extends Phaser.Scene {
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
         this.swoosh = this.sound.add('fireball');
+        //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
+        this.haroldHealth = 3
+        this.healthbar = this.add.sprite(game.config.width/70, game.config.height/90, 'healthbar').setOrigin(0,0);
+        this.anims.create({
+            key: 'health',
+            frames: this.anims.generateFrameNumbers('healthbar', { start: 0, end: 3, first: 0}),
+            frameRate: 0,
+        })
+
     }
 
     update() {
+
+
+        
+
         this.space.tilePositionY -= 2;
         if(!this.ded) {
             this.harold.update();
@@ -53,14 +66,8 @@ class Play extends Phaser.Scene {
     }
 
     checkCollision(Cat, Meteor) {
-        //somehow check collision
-        /*let a = Math.pow(Cat.x - Meteor.x, 2);
-        let b = Math.pow(Cat.y - Meteor.y, 2);
-        let c = Math.sqrt(a + b);
-        if (c < Cat.width*Cat.scale*0.4 || c < Meteor.width*Cat.scale*0.4) return true;   
-        return false;*/
-        //console.log(Cat.x, " < ", Meteor.x + Meteor.width);
-
+        this.haroldHealth--;
+        this.healthbar.anims.play()
         if (Cat.x < Meteor.x + Meteor.width*Meteor.scale*this.decimal &&
             Meteor.x < Cat.x + Cat.width*Cat.scale*this.decimal &&
             Cat.y < Meteor.y + Meteor.height*Meteor.scale*this.decimal &&
