@@ -1,7 +1,7 @@
-class Play extends Phaser.Scene {//comment
+class Play extends Phaser.Scene {
     constructor() {
         super("play");
-        this.ded = 0;
+        this.health = 3;
         this.fardplayed = false;
         this.decimal = 0.8;
     }
@@ -25,33 +25,49 @@ class Play extends Phaser.Scene {//comment
 
         this.swoosh = this.sound.add('fireball');
         //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
-        this.haroldHealth = 3
-        this.healthbar = this.add.sprite(game.config.width/70, game.config.height/90, 'healthbar').setOrigin(0,0);
-        this.anims.create({
-            key: 'health',
-            frames: this.anims.generateFrameNumbers('healthbar', { start: 0, end: 3, first: 0}),
-            frameRate: 0,
-        })
-
+        this.haroldHealth = 3;
+        this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
     }
 
     update() {
-
-
-        
+        this.healthbar.destroy();
+        //console.log(this.haroldHealth);
+        if(this.haroldHealth == 3){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
+        }
+        if(this.haroldHealth == 2){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '2health').setOrigin(0,0);
+        }
+        if(this.haroldHealth == 1){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
+        }
 
         this.space.tilePositionY -= 2;
-        if(!this.ded) {
+        if(this.haroldHealth > 0) {
             this.harold.update();
             this.meteor1.update();
             this.meteor2.update();
-            this.ded += this.checkCollision(this.harold, this.meteor1);  
-            this.ded += this.checkCollision(this.harold, this.meteor2);
+            /*let healthchange = this.checkCollision(this.harold, this.meteor1);  
+            if (haroldHealth != 0) {
+                this.health --;
+                this.meteor1.reset;
+            }
+            //healthchange = this.checkCollision(this.harold, this.meteor2);  
+            if (healthchange != 0) {
+                this.health -= healthchange;
+                this.meteor2.reset;
+            }*/
         }
-        //this.ded = this.checkCollision(this.harold, this.meteor1);  
-        //this.ded = this.checkCollision(this.harold, this.meteor2);
-        if (this.ded>0) this.dedCat.alpha = 1;
-        if (this.ded>0 && !this.fardplayed) {
+        if(this.checkCollision(this.harold, this.meteor1)){
+            this.haroldHealth--;
+            this.meteor1.reset();
+        }
+        if(this.checkCollision(this.harold, this.meteor2)){
+            this.haroldHealth--;
+            this.meteor2.reset();
+        }
+        if (this.haroldHealth == 0) this.dedCat.alpha = 1;
+        if (this.haroldHealth == 0 && !this.fardplayed) {
             this.swoosh.stop();
             this.sound.play('fard');
             this.fardplayed = true;
@@ -66,12 +82,12 @@ class Play extends Phaser.Scene {//comment
     }
 
     checkCollision(Cat, Meteor) {
-        this.haroldHealth--;
-        this.healthbar.anims.play()
         if (Cat.x < Meteor.x + Meteor.width*Meteor.scale*this.decimal &&
             Meteor.x < Cat.x + Cat.width*Cat.scale*this.decimal &&
             Cat.y < Meteor.y + Meteor.height*Meteor.scale*this.decimal &&
-            Meteor.y < Cat.y + Cat.height*Cat.scale*this.decimal) return 1;
-        else return 0;
+            Meteor.y < Cat.y + Cat.height*Cat.scale*this.decimal){
+                return true;
+        } 
+        else return false;
     }
 }
