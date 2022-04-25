@@ -23,7 +23,7 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        this.swoosh = this.sound.add('fireball');
+        this.swoosh = this.sound.add('fireball', {volume: 0.3});
         //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
@@ -32,7 +32,6 @@ class Play extends Phaser.Scene {
 
     update() {
         this.healthbar.destroy();
-        //console.log(this.haroldHealth);
         if(this.haroldHealth == 3){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
         }
