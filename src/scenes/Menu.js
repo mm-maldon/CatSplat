@@ -16,6 +16,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('1health', './assets/1health.png');
         this.load.image('2health', './assets/2health.png');
         this.load.image('3health', './assets/3health.png');
+        this.load.audio('meow', './assets/meow.wav');
     }
 
     create() {
@@ -24,6 +25,8 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+        spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+      //spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         
     }
 

@@ -27,6 +27,7 @@ class Play extends Phaser.Scene {
         //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
+        spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
     }
 
     update() {
@@ -77,8 +78,10 @@ class Play extends Phaser.Scene {
         if (this.meteor1.y == 0) {
             this.swoosh.play();
         }
-
-
+      //if (Phaser.Input.Keyboard.JustDown(spacebar))
+        if (Phaser.Input.Keyboard.JustDown(spacebar)) {
+            this.sound.play('meow');
+        }
     }
 
     checkCollision(Cat, Meteor) {

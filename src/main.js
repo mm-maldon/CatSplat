@@ -5,6 +5,6 @@ let config = {
     scene: [Menu, Play],
 };
 
-let keyLEFT, keyRIGHT;
+let keyLEFT, keyRIGHT, spacebar;
 
 let game = new Phaser.Game(config);
