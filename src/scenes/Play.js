@@ -23,7 +23,8 @@ class Play extends Phaser.Scene {
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
 
-        this.swoosh = this.sound.add('fireball', {volume: 0.3});
+        this.swoosh = this.sound.add('fireball', {volume: 0.2});
+        this.fard = this.sound.add('fard', {volume: 1.3});
         //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
@@ -32,7 +33,7 @@ class Play extends Phaser.Scene {
 
     update() {
         this.healthbar.destroy();
-        if(this.haroldHealth == 3){
+        if(this.haroldHealth >= 3){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
         }
         if(this.haroldHealth == 2){
@@ -47,16 +48,6 @@ class Play extends Phaser.Scene {
             this.harold.update();
             this.meteor1.update();
             this.meteor2.update();
-            /*let healthchange = this.checkCollision(this.harold, this.meteor1);  
-            if (haroldHealth != 0) {
-                this.health --;
-                this.meteor1.reset;
-            }
-            //healthchange = this.checkCollision(this.harold, this.meteor2);  
-            if (healthchange != 0) {
-                this.health -= healthchange;
-                this.meteor2.reset;
-            }*/
         }
         if(this.checkCollision(this.harold, this.meteor1)){
             this.haroldHealth--;
@@ -69,7 +60,7 @@ class Play extends Phaser.Scene {
         if (this.haroldHealth == 0) this.dedCat.alpha = 1;
         if (this.haroldHealth == 0 && !this.fardplayed) {
             this.swoosh.stop();
-            this.sound.play('fard');
+            this.fard.play();
             this.fardplayed = true;
         }
 
