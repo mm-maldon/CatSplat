@@ -17,7 +17,7 @@ class Play extends Phaser.Scene {
         this.meteor1.setScale(0.2);
         this.meteor2 = new Meteor(this, Math.random()*game.config.width, game.config.height*2, 'meteor2', 0).setOrigin(0, 0);
         this.meteor2.setScale(0.2);
-        this.dedCat = this.add.tileSprite(game.config.width/2, game.config.height/2, 746, 753, 'gameover').setOrigin(0.5, 0.5);
+        this.dedCat = this.add.tileSprite(game.config.width/2, game.config.height/2, 640, 740, 'gameover').setOrigin(0.5, 0.5);
         this.dedCat.alpha = 0;
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
