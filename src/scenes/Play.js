@@ -46,7 +46,7 @@ class Play extends Phaser.Scene {
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
         }
 
-        this.space.tilePositionY -= 2;
+        this.space.tilePositionY += 2;
         if(this.haroldHealth > 0) {
             this.harold.update();
             this.meteor1.update();
