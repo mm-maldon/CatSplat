@@ -7,6 +7,7 @@ class Play extends Phaser.Scene {
     }
 
     preload() {
+        this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 15});
     }
 
     create() {
@@ -21,6 +22,13 @@ class Play extends Phaser.Scene {
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        //animation config
+        this.anims.create({
+            key: 'explosion',
+            frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 15, first: 0}),
+            frameRate: 20
+        });
     }
 
     update() {
@@ -51,5 +59,17 @@ class Play extends Phaser.Scene {
             Cat.y < Meteor.y + Meteor.height*Meteor.scale*this.decimal &&
             Meteor.y < Cat.y + Cat.height*Cat.scale*this.decimal) return true;
         else return false;
+    }
+
+    meteorExplode(meteor) {
+        /* temporarily hide meteor
+        meteor.alpha = 0;
+        */
+        //create explosion sprite at meteor
+        let boom = this.add.sprite(meteor.x, meteor.y, 'explosionSheet').setOrigin(0, 0);
+        boom.anims.play('explosion');
+        boom.on('animationcomplete', () => {
+            boom.destroy();
+        });
     }
 }
