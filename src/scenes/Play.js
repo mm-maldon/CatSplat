@@ -28,7 +28,6 @@ class Play extends Phaser.Scene {
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
-<<<<<<< HEAD
 
         //animation config
         this.anims.create({
@@ -36,7 +35,6 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 15, first: 0}),
             frameRate: 20
         });
-=======
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
@@ -46,7 +44,6 @@ class Play extends Phaser.Scene {
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
->>>>>>> 13f9689d4a202bf6f284a7f90f6fe2030f53b864
     }
 
     update() {
