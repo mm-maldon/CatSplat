@@ -1,27 +1,34 @@
 class Play extends Phaser.Scene {
     constructor() {
         super("play");
-        this.ded = false;
+        this.health = 3;
         this.fardplayed = false;
-        this.decimal = 1;
+        this.decimal = 0.8;
     }
 
     preload() {
+<<<<<<< HEAD
         this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 15});
+=======
+
+>>>>>>> 13f9689d4a202bf6f284a7f90f6fe2030f53b864
     }
 
     create() {
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
-        this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'harold', 0).setOrigin(0.5, 0.5);
+        this.planetOverlay = this.add.tileSprite(0, 0, 640, 740, 'planetOverlay').setOrigin(0, 0);
+        this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'harold', 0).setOrigin(0, 0);
         this.harold.setScale(0.2);
-        this.meteor1 = new Meteor(this, Math.random()*game.config.width, game.config.height*1.5, 'meteor', 0).setOrigin(0.5, 0.5);
+        this.meteor1 = new Meteor(this, Math.random()*game.config.width, game.config.height*1.5, 'meteor', 0).setOrigin(0, 0);
         this.meteor1.setScale(0.2);
-        this.dedCat = this.add.tileSprite(game.config.width/2-20, game.config.height/2, 746, 753, 'gameover').setOrigin(0.5, 0.5);
+        this.meteor2 = new Meteor(this, Math.random()*game.config.width, game.config.height*2, 'meteor2', 0).setOrigin(0, 0);
+        this.meteor2.setScale(0.2);
+        this.dedCat = this.add.tileSprite(game.config.width/2, game.config.height/2, 640, 740, 'gameover').setOrigin(0.5, 0.5);
         this.dedCat.alpha = 0;
-
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+<<<<<<< HEAD
 
         //animation config
         this.anims.create({
@@ -29,35 +36,70 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 15, first: 0}),
             frameRate: 20
         });
+=======
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+
+        this.swoosh = this.sound.add('fireball', {volume: 0.2});
+        this.fard = this.sound.add('fard', {volume: 1.3});
+        //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
+        this.haroldHealth = 3;
+        this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
+        spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+>>>>>>> 13f9689d4a202bf6f284a7f90f6fe2030f53b864
     }
 
     update() {
-        this.space.tilePositionY -= 2;
-        if(!this.ded) {
+        this.healthbar.destroy();
+        if(this.haroldHealth >= 3){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
+        }
+        if(this.haroldHealth == 2){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '2health').setOrigin(0,0);
+        }
+        if(this.haroldHealth == 1){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
+        }
+
+        this.space.tilePositionY += 1;
+        this.planetOverlay.tilePositionY += 2;
+        if(this.haroldHealth > 0) {
             this.harold.update();
             this.meteor1.update();
+            this.meteor2.update();
         }
-        this.ded = this.checkCollision(this.harold, this.meteor1);  //checkCollision is still unfinished
-        if (this.ded) this.dedCat.alpha = 1;
-        if (this.ded && !this.fardplayed) {
-            this.sound.play('fard');
+        if(this.checkCollision(this.harold, this.meteor1)){
+            this.haroldHealth--;
+            this.meteor1.reset();
+        }
+        if(this.checkCollision(this.harold, this.meteor2)){
+            this.haroldHealth--;
+            this.meteor2.reset();
+        }
+        if (this.haroldHealth == 0) this.dedCat.alpha = 1;
+        if (this.haroldHealth == 0 && !this.fardplayed) {
+            this.swoosh.stop();
+            this.fard.play();
             this.fardplayed = true;
+        }
+
+
+        if (this.meteor1.y == 0) {
+            this.swoosh.play();
+        }
+      //if (Phaser.Input.Keyboard.JustDown(spacebar))
+        if (Phaser.Input.Keyboard.JustDown(spacebar)) {
+            this.sound.play('meow');
         }
     }
 
     checkCollision(Cat, Meteor) {
-        //somehow check collision
-        /*let a = Math.pow(Cat.x - Meteor.x, 2);
-        let b = Math.pow(Cat.y - Meteor.y, 2);
-        let c = Math.sqrt(a + b);
-        if (c < Cat.width*Cat.scale*0.4 || c < Meteor.width*Cat.scale*0.4) return true;   
-        return false;*/
-        //console.log(Cat.x, " < ", Meteor.x + Meteor.width);
-
         if (Cat.x < Meteor.x + Meteor.width*Meteor.scale*this.decimal &&
             Meteor.x < Cat.x + Cat.width*Cat.scale*this.decimal &&
             Cat.y < Meteor.y + Meteor.height*Meteor.scale*this.decimal &&
-            Meteor.y < Cat.y + Cat.height*Cat.scale*this.decimal) return true;
+            Meteor.y < Cat.y + Cat.height*Cat.scale*this.decimal){
+                return true;
+        } 
         else return false;
     }
 
