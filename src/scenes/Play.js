@@ -6,14 +6,6 @@ class Play extends Phaser.Scene {
         this.decimal = 0.8;
     }
 
-    preload() {
-<<<<<<< HEAD
-        this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 15});
-=======
-
->>>>>>> 13f9689d4a202bf6f284a7f90f6fe2030f53b864
-    }
-
     create() {
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
         this.planetOverlay = this.add.tileSprite(0, 0, 640, 740, 'planetOverlay').setOrigin(0, 0);
@@ -67,10 +59,12 @@ class Play extends Phaser.Scene {
         }
         if(this.checkCollision(this.harold, this.meteor1)){
             this.haroldHealth--;
+            if (this.haroldHealth > 0) this.meteorExplode(this.meteor1);
             this.meteor1.reset();
         }
         if(this.checkCollision(this.harold, this.meteor2)){
             this.haroldHealth--;
+            if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);
             this.meteor2.reset();
         }
         if (this.haroldHealth == 0) this.dedCat.alpha = 1;
@@ -105,7 +99,9 @@ class Play extends Phaser.Scene {
         meteor.alpha = 0;
         */
         //create explosion sprite at meteor
-        let boom = this.add.sprite(meteor.x, meteor.y, 'explosionSheet').setOrigin(0, 0);
+        
+        let boom = this.add.sprite(meteor.x, meteor.y, 'explosionSheet').setOrigin(0.5, 0.5);
+        boom.setScale(0.4);
         boom.anims.play('explosion');
         boom.on('animationcomplete', () => {
             boom.destroy();
