@@ -6,6 +6,12 @@ class Cat extends Phaser.GameObjects.Sprite {
         this.fish = 3;     //fish is health.
         this.moveSpeed = 4;
         this.velocity = 2;       //we probably won't need this until we implement arcade physics
+        this.anims.create({
+            key: 'falling',
+            frames: this.anims.generateFrameNumbers('haroldSheet', { start: 0, end: 15, }),
+            repeat: -1
+        })
+        this.play('falling');
     }
 
     update() { 

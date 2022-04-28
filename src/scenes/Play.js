@@ -9,7 +9,7 @@ class Play extends Phaser.Scene {
     create() {
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
         this.planetOverlay = this.add.tileSprite(0, 0, 640, 740, 'planetOverlay').setOrigin(0, 0);
-        this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'harold', 0).setOrigin(0, 0);
+        this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'haroldSheet', 0).setOrigin(0, 0);
         this.harold.setScale(0.2);
         this.meteor1 = new Meteor(this, Math.random()*game.config.width, game.config.height*1.5, 'meteor', 0).setOrigin(0, 0);
         this.meteor1.setScale(0.2);

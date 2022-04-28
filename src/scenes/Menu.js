@@ -4,7 +4,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
     }
 
     preload() {
-        this.load.image('haroldSheet', 'assets/haroldSheet.png', {frameWidth: 440, frameHeight: 440, startFrame: 0, endFrame: 14});
+        this.load.spritesheet('haroldSheet', 'assets/haroldSheet.png', {frameWidth: 440, frameHeight: 440, startFrame: 0, endFrame: 14});
         this.load.image('meteor', 'assets/meteor.png');
         this.load.image('meteor2', 'assets/meteor2.png');
         this.load.image('gameover', 'assets/gameover.png');
@@ -18,10 +18,12 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('2health', './assets/2health.png');
         this.load.image('3health', './assets/3health.png');
         this.load.audio('meow', './assets/meow.wav');
-        this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 15});
+        this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 14});
+        this.load.image('titleScreen', 'assets/CatSplatTitle.png');
     }
 
     create() {
+        this.title = this.add.tileSprite(game.config.width/2, game.config.height/2, 640, 740, 'titleScreen').setOrigin(0.5, 0.5);
 
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
