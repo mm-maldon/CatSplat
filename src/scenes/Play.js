@@ -40,7 +40,11 @@ class Play extends Phaser.Scene {
 
         this.startMS = this.time.now;
 
-        this.timetext = this.add.text(game.config.width/2, game.config.height/2, "");
+        let timerConfig = {
+            fontSize: '28px',
+        }
+
+        this.timetext = this.add.text(game.config.width - 200, 20, "", timerConfig);
 
     }
 
@@ -80,8 +84,8 @@ class Play extends Phaser.Scene {
         }
         if (this.haroldHealth == 0) this.dedCat.alpha = 1;
         if (this.haroldHealth == 0 && !this.fardplayed) {
-
-            
+            this.healthbar.destroy();
+            this.timetext.destroy();
             this.swoosh.stop();
             this.fard.play();
             this.fardplayed = true;
