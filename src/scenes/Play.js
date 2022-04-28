@@ -36,9 +36,20 @@ class Play extends Phaser.Scene {
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+
+
+        this.startMS = this.time.now;
+
+        this.timetext = this.add.text(game.config.width/2, game.config.height/2, "");
+
     }
 
     update() {
+
+        let lifetimeMS = this.time.now - this.startMS;
+        this.timetext.text = lifetimeMS + " points";
+        
+
         this.healthbar.destroy();
         if(this.haroldHealth >= 3){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
@@ -69,6 +80,8 @@ class Play extends Phaser.Scene {
         }
         if (this.haroldHealth == 0) this.dedCat.alpha = 1;
         if (this.haroldHealth == 0 && !this.fardplayed) {
+
+            
             this.swoosh.stop();
             this.fard.play();
             this.fardplayed = true;
