@@ -6,12 +6,9 @@ class Play extends Phaser.Scene {
         this.decimal = 0.8;
     }
 
-    preload() {
-
-    }
-
     create() {
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
+        this.planetOverlay = this.add.tileSprite(0, 0, 640, 740, 'planetOverlay').setOrigin(0, 0);
         this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'harold', 0).setOrigin(0, 0);
         this.harold.setScale(0.2);
         this.meteor1 = new Meteor(this, Math.random()*game.config.width, game.config.height*1.5, 'meteor', 0).setOrigin(0, 0);
@@ -23,6 +20,13 @@ class Play extends Phaser.Scene {
         //making phaser listen for KeyCode LEFT and RIGHT.  keyLEFT and keyRIGHT are global vars defined in main.js
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT);
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT);
+
+        //animation config
+        this.anims.create({
+            key: 'explosion',
+            frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 15, first: 0}),
+            frameRate: 20
+        });
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
@@ -46,7 +50,8 @@ class Play extends Phaser.Scene {
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
         }
 
-        this.space.tilePositionY -= 2;
+        this.space.tilePositionY += 1;
+        this.planetOverlay.tilePositionY += 2;
         if(this.haroldHealth > 0) {
             this.harold.update();
             this.meteor1.update();
@@ -54,10 +59,12 @@ class Play extends Phaser.Scene {
         }
         if(this.checkCollision(this.harold, this.meteor1)){
             this.haroldHealth--;
+            if (this.haroldHealth > 0) this.meteorExplode(this.meteor1);
             this.meteor1.reset();
         }
         if(this.checkCollision(this.harold, this.meteor2)){
             this.haroldHealth--;
+            if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);
             this.meteor2.reset();
         }
         if (this.haroldHealth == 0) this.dedCat.alpha = 1;
@@ -85,5 +92,19 @@ class Play extends Phaser.Scene {
                 return true;
         } 
         else return false;
+    }
+
+    meteorExplode(meteor) {
+        /* temporarily hide meteor
+        meteor.alpha = 0;
+        */
+        //create explosion sprite at meteor
+        
+        let boom = this.add.sprite(meteor.x, meteor.y, 'explosionSheet').setOrigin(0.5, 0.5);
+        boom.setScale(0.4);
+        boom.anims.play('explosion');
+        boom.on('animationcomplete', () => {
+            boom.destroy();
+        });
     }
 }
