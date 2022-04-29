@@ -16,4 +16,8 @@ class Meteor extends Phaser.GameObjects.Sprite {
         this.x = (Math.random()*game.config.width);   //setting x coordinate to be random, but within the game's width
         this.y = 2*game.config.height;
     }
+
+    setSpeed(newSpeed) {
+        this.moveSpeed = newSpeed;
+    }
 }

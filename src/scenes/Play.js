@@ -45,13 +45,15 @@ class Play extends Phaser.Scene {
         }
 
         this.timetext = this.add.text(game.config.width - 200, 20, "", timerConfig);
+        this.playMusic = this.sound.add('backgroundMusic');
+        this.playMusic.play({ loop:true });
 
     }
 
     update() {
 
         let lifetimeMS = this.time.now - this.startMS;
-        this.timetext.text = lifetimeMS + " points";
+        this.timetext.text = Math.floor(lifetimeMS/1) + " meters";
         
 
         this.healthbar.destroy();
@@ -82,7 +84,10 @@ class Play extends Phaser.Scene {
             if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);
             this.meteor2.reset();
         }
-        if (this.haroldHealth == 0) this.dedCat.alpha = 1;
+        if (this.haroldHealth == 0) {
+            this.dedCat.alpha = 1;
+            this.playMusic.stop();
+        }
         if (this.haroldHealth == 0 && !this.fardplayed) {
             this.healthbar.destroy();
             this.timetext.destroy();

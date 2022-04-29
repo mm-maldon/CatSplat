@@ -10,7 +10,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('gameover', 'assets/gameover.png');
         this.load.image('space', 'assets/space.png');
         this.load.image('planetOverlay', 'assets/planetOverlay.png');
-        this.load.audio('fard', 'assets/fard.wav');
+        this.load.audio('fard', 'assets/customFard.wav');
         this.load.audio('fireball', 'assets/fireball.wav');
         //this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.image('0health', './assets/0health.png');
@@ -20,6 +20,8 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.audio('meow', './assets/meow.wav');
         this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 14});
         this.load.image('titleScreen', 'assets/CatSplatTitle.png');
+        this.load.audio('titleMusic', './assets/CatsplatTitle.wav');
+        this.load.audio('backgroundMusic', './assets/CatsplatPlay.wav');
     }
 
     create() {
@@ -31,11 +33,18 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
+        this.titleMusic = this.sound.add('titleMusic');
+        this.titleMusic.play({ loop: true });
+        /*let music = this.sound.add('Attack on Oritheia');
+        let musicConfig = { loop:true };
+        music.play(musicConfig);*/
+
         
     }
 
     update() {
         if (Phaser.Input.Keyboard.JustDown(spacebar)) {
+            this.titleMusic.stop();
             this.sound.play('meow');
             this.scene.start('play');
         }

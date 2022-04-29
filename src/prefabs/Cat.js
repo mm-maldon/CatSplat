@@ -8,7 +8,7 @@ class Cat extends Phaser.GameObjects.Sprite {
         this.velocity = 2;       //we probably won't need this until we implement arcade physics
         this.anims.create({
             key: 'falling',
-            frames: this.anims.generateFrameNumbers('haroldSheet', { start: 0, end: 15, }),
+            frames: this.anims.generateFrameNumbers('haroldSheet', { start: 0, end: 14, }),
             repeat: -1
         })
         this.play('falling');
@@ -21,9 +21,9 @@ class Cat extends Phaser.GameObjects.Sprite {
         } else if (keyRIGHT.isDown && this.x < game.config.width - this.width*this.scale) {
             this.x += this.moveSpeed;
         } else if (keyUP.isDown && this.y > this.height*this.scale - 90) {
-            this.y -= this.moveSpeed - 1;
+            this.y -= this.moveSpeed - 2;
         } else if (keyDOWN.isDown && this.y < game.config.height - this.height*this.scale) {
-            this.y += this.moveSpeed - 1;
+            this.y += this.moveSpeed - 2;
         }
     }
 
