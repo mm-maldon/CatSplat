@@ -4,6 +4,7 @@ class Play extends Phaser.Scene {
         this.health = 3;
         this.fardplayed = false;
         this.decimal = 0.8;
+        this.gotTime = false;
     }
 
     create() {
@@ -38,8 +39,7 @@ class Play extends Phaser.Scene {
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-        this.startMS = this.time.now;
-
+        //console.log("startMS: ", this.startMS, "      this.time.now: ", this.time.now);
         let timerConfig = {
             fontSize: '28px',
         }
@@ -47,14 +47,22 @@ class Play extends Phaser.Scene {
         this.timetext = this.add.text(game.config.width - 200, 20, "", timerConfig);
         this.playMusic = this.sound.add('backgroundMusic');
         this.playMusic.play({ loop:true });
-
+        this.startMS;
     }
 
     update() {
-
-        let lifetimeMS = this.time.now - this.startMS;
-        this.timetext.text = Math.floor(lifetimeMS/1) + " meters";
+        //console.log("this.time.now:  ", this.time.now);
+        if (this.gotTime == false) {
+            this.startMS = this.time.now;
+            this.gotTime = true;
+        }
+        let lifetimeMS = Math.floor(this.time.now - this.startMS);
+        this.timetext.text = lifetimeMS + " meters";
         
+        if(lifetimeMS % 1000 == 0 && this.meteor1.moveSpeed < 10){
+            this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
+            this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
+        }
 
         this.healthbar.destroy();
         if(this.haroldHealth >= 3){

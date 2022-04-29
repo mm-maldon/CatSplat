@@ -38,7 +38,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         /*let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
         music.play(musicConfig);*/
-
+        this.startMS = 0;
         
     }
 
@@ -47,6 +47,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
             this.titleMusic.stop();
             this.sound.play('meow');
             this.scene.start('play');
+            this.startMS = this.time.now;
         }
     }
 }
