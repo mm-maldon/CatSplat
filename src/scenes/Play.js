@@ -93,16 +93,19 @@ class Play extends Phaser.Scene {
             this.meteor2.reset();
         }
         if (this.haroldHealth == 0) {
-            this.dedCat.alpha = 1;
+            //this.dedCat.alpha = 1;
+            this.gotTime = false;
             this.playMusic.stop();
+            console.log(lifetimeMS);
+            this.scene.start('gameover', lifetimeMS);
         }
-        if (this.haroldHealth == 0 && !this.fardplayed) {
+        /*if (this.haroldHealth == 0 && !this.fardplayed) {
             this.healthbar.destroy();
             this.timetext.destroy();
             this.swoosh.stop();
             this.fard.play();
             this.fardplayed = true;
-        }
+        }*/
 
 
         if (this.meteor1.y == 0) {
