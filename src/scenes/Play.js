@@ -61,10 +61,11 @@ class Play extends Phaser.Scene {
         }
         let lifetimeMS = Math.floor(this.time.now - this.startMS);
         this.timetext.text = lifetimeMS + " meters";
-        
-        if(lifetimeMS % 5000 == 0 && this.meteor1.moveSpeed < 10){
+        //console.log(lifetimeMS);
+        if(lifetimeMS % 5000 < 7 && this.meteor1.moveSpeed < 10){
             this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
             this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
+            console.log(lifetimeMS);
         }
 
         this.healthbar.destroy();
