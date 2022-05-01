@@ -5,6 +5,7 @@ class Play extends Phaser.Scene {
         this.fardplayed = false;
         this.decimal = 0.8;
         this.gotTime = false;
+        this.highScore = 0;
     }
 
     create() {
@@ -33,6 +34,7 @@ class Play extends Phaser.Scene {
 
         this.swoosh = this.sound.add('fireball', {volume: 0.2});
         this.fard = this.sound.add('fard', {volume: 1.3});
+        this.explosion = this.sound.add('explodeSound', {volume: 1});
         //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
@@ -45,8 +47,9 @@ class Play extends Phaser.Scene {
         }
 
         this.timetext = this.add.text(game.config.width - 200, 20, "", timerConfig);
+        this.highScoreDisplay = this.add.text(game.config.width/2, 20, "High: " + this.highScore, timerConfig).setOrigin(0.5,0);
         this.playMusic = this.sound.add('backgroundMusic');
-        this.playMusic.play({ loop:true });
+        this.playMusic.play({volume: 0.2, loop:true });
         this.startMS;
     }
 
@@ -59,7 +62,7 @@ class Play extends Phaser.Scene {
         let lifetimeMS = Math.floor(this.time.now - this.startMS);
         this.timetext.text = lifetimeMS + " meters";
         
-        if(lifetimeMS % 1000 == 0 && this.meteor1.moveSpeed < 10){
+        if(lifetimeMS % 5000 == 0 && this.meteor1.moveSpeed < 10){
             this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
             this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
         }
@@ -83,11 +86,13 @@ class Play extends Phaser.Scene {
             this.meteor2.update();
         }
         if(this.checkCollision(this.harold, this.meteor1)){
+            this.explosion.play();
             this.haroldHealth--;
             if (this.haroldHealth > 0) this.meteorExplode(this.meteor1);
             this.meteor1.reset();
         }
         if(this.checkCollision(this.harold, this.meteor2)){
+            this.explosion.play();
             this.haroldHealth--;
             if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);
             this.meteor2.reset();
@@ -97,6 +102,7 @@ class Play extends Phaser.Scene {
             this.gotTime = false;
             this.playMusic.stop();
             console.log(lifetimeMS);
+            if (lifetimeMS > this.highScore) this.highScore = lifetimeMS;
             this.scene.start('gameover', lifetimeMS);
         }
         /*if (this.haroldHealth == 0 && !this.fardplayed) {

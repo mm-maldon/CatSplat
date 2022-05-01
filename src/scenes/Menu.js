@@ -23,6 +23,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.audio('titleMusic', './assets/CatsplatTitle.wav');
         this.load.audio('backgroundMusic', './assets/CatsplatPlay.wav');
         this.load.image('restartImage', './assets/restart.png');
+        this.load.audio('explodeSound', './assets/dropReverb&Echo.wav');
     }
 
     create() {
@@ -35,7 +36,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.titleMusic = this.sound.add('titleMusic');
-        this.titleMusic.play({ loop: true });
+        this.titleMusic.play({ volume : 0.4, loop: true });
         /*let music = this.sound.add('Attack on Oritheia');
         let musicConfig = { loop:true };
         music.play(musicConfig);*/
