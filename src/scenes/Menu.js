@@ -5,6 +5,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
 
     preload() {
         this.load.spritesheet('haroldSheet', 'assets/haroldSheet.png', {frameWidth: 440, frameHeight: 440, startFrame: 0, endFrame: 14});
+        this.load.spritesheet('splatSheet', 'assets/splatSheet.png', {frameWidth: 600, frameHeight: 440, startFrame: 0, endFrame: 14});
         this.load.image('meteor', 'assets/meteor.png');
         this.load.image('meteor2', 'assets/meteor2.png');
         this.load.image('gameover', 'assets/gameover.png');
@@ -24,6 +25,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.audio('backgroundMusic', './assets/CatsplatPlay.wav');
         this.load.image('restartImage', './assets/restart.png');
         this.load.audio('explodeSound', './assets/dropReverb&Echo.wav');
+        this.load.audio('lowMeow', './assets/lowMeow.wav');
     }
 
     create() {
