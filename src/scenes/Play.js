@@ -87,7 +87,7 @@ class Play extends Phaser.Scene {
         }
         if(this.checkCollision(this.harold, this.meteor1)){
             this.explosion.play();
-            //game.camera.shake(0.05, 500);
+            //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
             this.cameras.main.shake(200, 0.005);
             this.haroldHealth--;
             if (this.haroldHealth > 0) this.meteorExplode(this.meteor1);
@@ -95,6 +95,7 @@ class Play extends Phaser.Scene {
         }
         if(this.checkCollision(this.harold, this.meteor2)){
             this.explosion.play();
+            //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
             this.cameras.main.shake(200, 0.005);
             this.haroldHealth--;
             if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);

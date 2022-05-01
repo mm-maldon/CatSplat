@@ -17,7 +17,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('1health', './assets/1health.png');
         this.load.image('2health', './assets/2health.png');
         this.load.image('3health', './assets/3health.png');
-        this.load.audio('meow', './assets/meow.wav');
+        this.load.audio('meow', './assets/customMeow.wav');
         this.load.spritesheet('explosionSheet', 'assets/explosionSheet.png', {frameWidth: 700, frameHeight: 484, startFrame: 0, endFrame: 14});
         this.load.image('titleScreen', 'assets/CatSplatTitle.png');
         this.load.audio('titleMusic', './assets/CatsplatTitle.wav');
