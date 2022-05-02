@@ -61,14 +61,13 @@ class Play extends Phaser.Scene {
     }
 
     update() {
-        //console.log("this.time.now:  ", this.time.now);
         if (this.gotTime == false) {
             this.startMS = this.time.now;
             this.gotTime = true;
         }
         if (!this.endingPlay) { this.lifetimeMS = Math.floor(this.time.now - this.startMS); };
         this.timetext.text = this.lifetimeMS + " meters";
-        //console.log(lifetimeMS);
+
         if(this.lifetimeMS % 5000 < 7 && this.meteor1.moveSpeed < 10){
             this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
             this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
@@ -85,6 +84,10 @@ class Play extends Phaser.Scene {
         if(this.haroldHealth == 1){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
         }
+        if(this.haroldHealth == 0){
+            this.healthbar = this.add.tileSprite(5, 0, 164, 66, '0health').setOrigin(0,0);
+        }
+
         //parallax background
         this.space.tilePositionY = this.space.tilePositionY + this.parallaxSpeed;
         this.planetOverlay.tilePositionY = this.planetOverlay.tilePositionY + this.parallaxSpeed*2;
@@ -121,12 +124,6 @@ class Play extends Phaser.Scene {
             }
         }
         if(this.checkCollision(this.harold, this.meteor2)){
-            /*this.explosion.play();
-            //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
-            this.cameras.main.shake(200, 0.005);
-            this.haroldHealth--;
-            if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);
-            this.meteor2.reset();*/
             if (this.haroldHealth > 1) {  
                 this.haroldHealth--;
                 this.explosion.play();
