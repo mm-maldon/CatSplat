@@ -13,8 +13,9 @@ class Play extends Phaser.Scene {
         this.endingPlay = false;
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
         this.planetOverlay = this.add.tileSprite(0, 0, 640, 740, 'planetOverlay').setOrigin(0, 0);
-        this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'haroldSheet', 0).setOrigin(0, 0);
+        this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'haroldAtlas', 0).setOrigin(0, 0);
         this.harold.setScale(0.2);
+
         this.meteor1 = new Meteor(this, Math.random()*game.config.width, game.config.height*1.5, 'meteor', 0).setOrigin(0, 0);
         this.meteor1.setScale(0.2);
         this.meteor2 = new Meteor(this, Math.random()*game.config.width, game.config.height*2, 'meteor2', 0).setOrigin(0, 0);
@@ -42,7 +43,6 @@ class Play extends Phaser.Scene {
         this.swoosh = this.sound.add('fireball', {volume: 0.2});
         this.fard = this.sound.add('fard', {volume: 1.3});
         this.explosion = this.sound.add('explodeSound', {volume: 1});
-        //let littleBoom = this.add.sprite(ship.x, ship.y, 'sparrowExplosion').setOrigin(1,0);
         this.haroldHealth = 3;
         this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
@@ -57,7 +57,7 @@ class Play extends Phaser.Scene {
         this.playMusic = this.sound.add('backgroundMusic');
         this.playMusic.play({volume: 0.2, loop:true });
         this.startMS;
-        this.lifetimeMS;// = Math.floor(this.time.now - this.startMS);;
+        this.lifetimeMS;
     }
 
     update() {
@@ -111,7 +111,7 @@ class Play extends Phaser.Scene {
                 this.parallaxSpeed = 0;
                 this.harold.alpha = 0;
                 this.sound.play('squish');
-                let splat = this.add.sprite(this.harold.x, this.harold.y, 'splatSheet').setOrigin(0.5,0.5);
+                let splat = this.add.sprite(this.harold.x + this.harold.scale*(this.harold.width/2), this.harold.y + this.harold.scale*(this.harold.height/2), 'splatSheet').setOrigin(0.5,0.5);
                 splat.setScale(0.2);
                 splat.anims.play('splat');
                 splat.on('animationcomplete', () => {
@@ -137,7 +137,7 @@ class Play extends Phaser.Scene {
                 this.parallaxSpeed = 0;
                 this.harold.alpha = 0;
                 this.sound.play('squish');
-                let splat = this.add.sprite(this.harold.x, this.harold.y, 'splatSheet').setOrigin(0.5,0.5);
+                let splat = this.add.sprite(this.harold.x + this.harold.scale*(this.harold.width/2), this.harold.y + this.harold.scale*(this.harold.height/2), 'splatSheet').setOrigin(0.5,0.5);
                 splat.setScale(0.2);
                 splat.anims.play('splat');
                 splat.on('animationcomplete', () => {
@@ -150,21 +150,6 @@ class Play extends Phaser.Scene {
             }
         }
 
-
-        /*if (this.haroldHealth == 0) {
-            this.harold.alpha = 0;
-            //this.dedCat.alpha = 1;
-            this.gotTime = false;
-            this.playMusic.stop();
-            console.log(lifetimeMS);
-            if (lifetimeMS > this.highScore) this.highScore = lifetimeMS;
-            this.scene.start('gameover', lifetimeMS);
-        }*/
-
-        /*if (this.meteor1.y == 0) {
-            this.swoosh.play();
-        }*/
-      //if (Phaser.Input.Keyboard.JustDown(spacebar))
         if (Phaser.Input.Keyboard.JustDown(spacebar)) {
             this.sound.play('meow');
         }
@@ -180,20 +165,12 @@ class Play extends Phaser.Scene {
         else return false;
     }
 
-    meteorExplode(meteor) {
-        /* temporarily hide meteor
-        meteor.alpha = 0;
-        */
-        //create explosion sprite at meteor
-        
+    meteorExplode(meteor) { 
         let boom = this.add.sprite(meteor.x, meteor.y, 'explosionSheet').setOrigin(0.5, 0.5);
         boom.setScale(0.4);
         boom.anims.play('explosion');
         boom.on('animationcomplete', () => {
             boom.destroy();
         });
-        /*let splat = this.add.sprite(meteor.x, meteor.y, 'splatSheet').setOrigin(0.5, 0.5);
-        splat.anims.play('splat');
-        splat.on('animationcomplete', () => {splat.destroy();});*/
     }
 }

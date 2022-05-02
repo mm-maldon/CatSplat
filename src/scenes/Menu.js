@@ -27,6 +27,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.audio('explodeSound', './assets/dropReverb&Echo.wav');
         this.load.audio('lowMeow', './assets/lowMeow.wav');
         this.load.audio('squish', './assets/squish.wav');
+        this.load.atlas('haroldAtlas', './assets/haroldAtlas.png', './assets/haroldAtlas.json');
     }
 
     create() {
@@ -40,9 +41,6 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
         this.titleMusic = this.sound.add('titleMusic');
         this.titleMusic.play({ volume : 0.4, loop: true });
-        /*let music = this.sound.add('Attack on Oritheia');
-        let musicConfig = { loop:true };
-        music.play(musicConfig);*/
         this.startMS = 0;
         
     }

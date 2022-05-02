@@ -8,10 +8,11 @@ class Cat extends Phaser.GameObjects.Sprite {
         this.velocity = 2;       //we probably won't need this until we implement arcade physics
         this.anims.create({
             key: 'falling',
-            frames: this.anims.generateFrameNumbers('haroldSheet', { start: 0, end: 14, }),
-            repeat: -1
-        })
+            repeat: -1,
+            frames: this.anims.generateFrameNames('haroldAtlas', { prefix: 'pixil-frame-', end: 14})
+        });
         this.play('falling');
+
     }
 
     update() { 

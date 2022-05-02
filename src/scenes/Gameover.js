@@ -26,7 +26,6 @@ class Gameover extends Phaser.Scene {
             this.sound.play('lowMeow');
         }, null, this);
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
-        console.log(this.score);
     }
 
     update() {
