@@ -4,11 +4,11 @@ class Play extends Phaser.Scene {
         this.health = 3;
         this.fardplayed = false;
         this.decimal = 0.8;
-        this.gotTime = false;
         this.highScore = 0;
     }
 
     create() {
+        this.gotTime = false;
         this.parallaxSpeed = 1;
         this.endingPlay = false;
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
@@ -53,10 +53,11 @@ class Play extends Phaser.Scene {
         }
 
         this.timetext = this.add.text(game.config.width - 200, 20, "", timerConfig);
-        this.highScoreDisplay = this.add.text(game.config.width/2, 20, "High: " + this.highScore, timerConfig).setOrigin(0.5,0);
+        this.highScoreDisplay = this.add.text(game.config.width/2-20, 20, "HiScore: " + this.highScore, timerConfig).setOrigin(0.5,0);
         this.playMusic = this.sound.add('backgroundMusic');
         this.playMusic.play({volume: 0.2, loop:true });
         this.startMS;
+        this.lifetimeMS;// = Math.floor(this.time.now - this.startMS);;
     }
 
     update() {
@@ -65,11 +66,10 @@ class Play extends Phaser.Scene {
             this.startMS = this.time.now;
             this.gotTime = true;
         }
-        let lifetimeMS;
-        if (!this.endingPlay) { lifetimeMS = Math.floor(this.time.now - this.startMS); };
-        this.timetext.text = lifetimeMS + " meters";
+        if (!this.endingPlay) { this.lifetimeMS = Math.floor(this.time.now - this.startMS); };
+        this.timetext.text = this.lifetimeMS + " meters";
         //console.log(lifetimeMS);
-        if(lifetimeMS % 5000 < 7 && this.meteor1.moveSpeed < 10){
+        if(this.lifetimeMS % 5000 < 7 && this.meteor1.moveSpeed < 10){
             this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
             this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
         }
@@ -85,7 +85,6 @@ class Play extends Phaser.Scene {
         if(this.haroldHealth == 1){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
         }
-        console.log(this.parallaxSpeed);
         //parallax background
         this.space.tilePositionY = this.space.tilePositionY + this.parallaxSpeed;
         this.planetOverlay.tilePositionY = this.planetOverlay.tilePositionY + this.parallaxSpeed*2;
@@ -115,9 +114,10 @@ class Play extends Phaser.Scene {
                 splat.on('animationcomplete', () => {
                     this.time.delayedCall(500, () => { 
                         this.playMusic.stop();
-                        this.scene.start('gameover', lifetimeMS);
+                        this.scene.start('gameover', this.lifetimeMS);
                     }, null, this);
                 });
+                this.highScore = this.lifetimeMS;
             }
         }
         if(this.checkCollision(this.harold, this.meteor2)){
@@ -146,9 +146,10 @@ class Play extends Phaser.Scene {
                 splat.on('animationcomplete', () => {
                     this.time.delayedCall(500, () => { 
                         this.playMusic.stop();
-                        this.scene.start('gameover', lifetimeMS);
+                        this.scene.start('gameover', this.lifetimeMS);
                     }, null, this);
                 });
+                this.highScore = this.lifetimeMS;
             }
         }
 
