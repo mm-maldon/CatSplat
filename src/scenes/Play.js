@@ -9,6 +9,8 @@ class Play extends Phaser.Scene {
     }
 
     create() {
+        this.parallaxSpeed = 1;
+        this.endingPlay = false;
         this.space = this.add.tileSprite(0, 0, 640, 740, 'space').setOrigin(0, 0);
         this.planetOverlay = this.add.tileSprite(0, 0, 640, 740, 'planetOverlay').setOrigin(0, 0);
         this.harold = new Cat(this, game.config.width/2, game.config.height/7, 'haroldSheet', 0).setOrigin(0, 0);
@@ -29,6 +31,11 @@ class Play extends Phaser.Scene {
             frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 15, first: 0}),
             frameRate: 20
         });
+        this.anims.create({
+            key: 'splat',
+            frames: this.anims.generateFrameNumbers('splatSheet', { start: 0, end: 15, first: 0}),
+            frameRate: 20,
+        });
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
 
@@ -41,7 +48,6 @@ class Play extends Phaser.Scene {
         spacebar = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.SPACE);
 
 
-        //console.log("startMS: ", this.startMS, "      this.time.now: ", this.time.now);
         let timerConfig = {
             fontSize: '28px',
         }
@@ -59,15 +65,16 @@ class Play extends Phaser.Scene {
             this.startMS = this.time.now;
             this.gotTime = true;
         }
-        let lifetimeMS = Math.floor(this.time.now - this.startMS);
+        let lifetimeMS;
+        if (!this.endingPlay) { lifetimeMS = Math.floor(this.time.now - this.startMS); };
         this.timetext.text = lifetimeMS + " meters";
         //console.log(lifetimeMS);
         if(lifetimeMS % 5000 < 7 && this.meteor1.moveSpeed < 10){
             this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
             this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
-            console.log(lifetimeMS);
         }
 
+        //updating fish health bar
         this.healthbar.destroy();
         if(this.haroldHealth >= 3){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '3health').setOrigin(0,0);
@@ -78,31 +85,75 @@ class Play extends Phaser.Scene {
         if(this.haroldHealth == 1){
             this.healthbar = this.add.tileSprite(5, 0, 164, 66, '1health').setOrigin(0,0);
         }
+        console.log(this.parallaxSpeed);
+        //parallax background
+        this.space.tilePositionY = this.space.tilePositionY + this.parallaxSpeed;
+        this.planetOverlay.tilePositionY = this.planetOverlay.tilePositionY + this.parallaxSpeed*2;
 
-        this.space.tilePositionY += 1;
-        this.planetOverlay.tilePositionY += 2;
         if(this.haroldHealth > 0) {
             this.harold.update();
             this.meteor1.update();
             this.meteor2.update();
         }
         if(this.checkCollision(this.harold, this.meteor1)){
-            this.explosion.play();
-            //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
-            this.cameras.main.shake(200, 0.005);
-            this.haroldHealth--;
-            if (this.haroldHealth > 0) this.meteorExplode(this.meteor1);
-            this.meteor1.reset();
+            if (this.haroldHealth > 1) {  
+                this.haroldHealth--;
+                this.explosion.play();
+                //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
+                this.cameras.main.shake(200, 0.005);
+                this.meteorExplode(this.meteor1);
+                this.meteor1.reset();
+            } else if (this.haroldHealth <= 1 && this.endingPlay == false) {
+                this.haroldHealth = 0;
+                this.endingPlay = true;
+                this.parallaxSpeed = 0;
+                this.harold.alpha = 0;
+                this.sound.play('squish');
+                let splat = this.add.sprite(this.harold.x, this.harold.y, 'splatSheet').setOrigin(0.5,0.5);
+                splat.setScale(0.2);
+                splat.anims.play('splat');
+                splat.on('animationcomplete', () => {
+                    this.time.delayedCall(500, () => { 
+                        this.playMusic.stop();
+                        this.scene.start('gameover', lifetimeMS);
+                    }, null, this);
+                });
+            }
         }
         if(this.checkCollision(this.harold, this.meteor2)){
-            this.explosion.play();
+            /*this.explosion.play();
             //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
             this.cameras.main.shake(200, 0.005);
             this.haroldHealth--;
             if (this.haroldHealth > 0) this.meteorExplode(this.meteor2);
-            this.meteor2.reset();
+            this.meteor2.reset();*/
+            if (this.haroldHealth > 1) {  
+                this.haroldHealth--;
+                this.explosion.play();
+                //got this screen shake line from Sam Feng's Rocket Patrol Dream mod
+                this.cameras.main.shake(200, 0.005);
+                this.meteorExplode(this.meteor2);
+                this.meteor2.reset();
+            } else if (this.haroldHealth <= 1 && this.endingPlay == false) {
+                this.haroldHealth = 0;
+                this.endingPlay = true;
+                this.parallaxSpeed = 0;
+                this.harold.alpha = 0;
+                this.sound.play('squish');
+                let splat = this.add.sprite(this.harold.x, this.harold.y, 'splatSheet').setOrigin(0.5,0.5);
+                splat.setScale(0.2);
+                splat.anims.play('splat');
+                splat.on('animationcomplete', () => {
+                    this.time.delayedCall(500, () => { 
+                        this.playMusic.stop();
+                        this.scene.start('gameover', lifetimeMS);
+                    }, null, this);
+                });
+            }
         }
-        if (this.haroldHealth == 0) {
+
+
+        /*if (this.haroldHealth == 0) {
             this.harold.alpha = 0;
             //this.dedCat.alpha = 1;
             this.gotTime = false;
@@ -110,11 +161,11 @@ class Play extends Phaser.Scene {
             console.log(lifetimeMS);
             if (lifetimeMS > this.highScore) this.highScore = lifetimeMS;
             this.scene.start('gameover', lifetimeMS);
-        }
+        }*/
 
-        if (this.meteor1.y == 0) {
+        /*if (this.meteor1.y == 0) {
             this.swoosh.play();
-        }
+        }*/
       //if (Phaser.Input.Keyboard.JustDown(spacebar))
         if (Phaser.Input.Keyboard.JustDown(spacebar)) {
             this.sound.play('meow');
@@ -143,5 +194,8 @@ class Play extends Phaser.Scene {
         boom.on('animationcomplete', () => {
             boom.destroy();
         });
+        /*let splat = this.add.sprite(meteor.x, meteor.y, 'splatSheet').setOrigin(0.5, 0.5);
+        splat.anims.play('splat');
+        splat.on('animationcomplete', () => {splat.destroy();});*/
     }
 }

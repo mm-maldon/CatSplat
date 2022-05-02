@@ -11,7 +11,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('gameover', 'assets/gameover.png');
         this.load.image('space', 'assets/space.png');
         this.load.image('planetOverlay', 'assets/planetOverlay.png');
-        this.load.audio('fard', 'assets/customFard.wav');
+        this.load.audio('fard', 'assets/customFard2.wav');
         this.load.audio('fireball', 'assets/fireball.wav');
         //this.load.spritesheet('explosion', './assets/ExplosionSpritemap.png', {frameWidth: 64, frameHeight: 32, startFrame: 0, endFrame: 9});
         this.load.image('0health', './assets/0health.png');
@@ -26,6 +26,7 @@ class Menu extends Phaser.Scene { //we can use menu to load all the assets for n
         this.load.image('restartImage', './assets/restart.png');
         this.load.audio('explodeSound', './assets/dropReverb&Echo.wav');
         this.load.audio('lowMeow', './assets/lowMeow.wav');
+        this.load.audio('squish', './assets/squish.wav');
     }
 
     create() {

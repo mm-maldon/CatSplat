@@ -12,6 +12,7 @@ class Gameover extends Phaser.Scene {
         this.dedCat = this.add.tileSprite(game.config.width/2, game.config.height/2, 640, 740, 'gameover').setOrigin(0.5, 0.5);
         this.fard = this.sound.add('fard', {volume: 1.3});
         this.fard.play();
+        this.time.delayedCall(3000, () => { this.fard.stop();}, null, this);
         this.restartImage = this.add.tileSprite(game.config.width/2, game.config.height/2, 640, 740, 'restartImage').setOrigin(0.5, 0.5);
         this.restartImage.alpha = 0;
         this.scoreConfig = {
