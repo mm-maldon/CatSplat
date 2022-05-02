@@ -71,6 +71,7 @@ class Play extends Phaser.Scene {
         if(this.lifetimeMS % 5000 < 7 && this.meteor1.moveSpeed < 10){
             this.meteor1.setSpeed(this.meteor1.moveSpeed + 1);
             this.meteor2.setSpeed(this.meteor2.moveSpeed + 1);
+            if (!this.endingPlay) this.parallaxSpeed += 0.2;
         }
 
         //updating fish health bar
@@ -150,7 +151,7 @@ class Play extends Phaser.Scene {
             }
         }
 
-        if (Phaser.Input.Keyboard.JustDown(spacebar)) {
+        if (Phaser.Input.Keyboard.JustDown(spacebar) && !this.endingPlay) {
             this.sound.play('meow');
         }
     }
