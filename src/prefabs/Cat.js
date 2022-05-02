@@ -16,7 +16,6 @@ class Cat extends Phaser.GameObjects.Sprite {
     }
 
     update() { 
-        //console.log(this.x, " > ", this.width*this.scale);
         if (keyLEFT.isDown && this.x > this.width*this.scale - 90) {
             this.x -= this.moveSpeed;
         } else if (keyRIGHT.isDown && this.x < game.config.width - this.width*this.scale) {
@@ -26,10 +25,6 @@ class Cat extends Phaser.GameObjects.Sprite {
         } else if (keyDOWN.isDown && this.y < game.config.height - this.height*this.scale) {
             this.y += this.moveSpeed - 2;
         }
-    }
-
-    die() {
-        //die
     }
 
 }

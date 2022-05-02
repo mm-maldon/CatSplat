@@ -29,12 +29,12 @@ class Play extends Phaser.Scene {
         //animation config
         this.anims.create({
             key: 'explosion',
-            frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 15, first: 0}),
+            frames: this.anims.generateFrameNumbers('explosionSheet', { start: 0, end: 14, first: 0}),
             frameRate: 20
         });
         this.anims.create({
             key: 'splat',
-            frames: this.anims.generateFrameNumbers('splatSheet', { start: 0, end: 15, first: 0}),
+            frames: this.anims.generateFrameNumbers('splatSheet', { start: 0, end: 14, first: 0}),
             frameRate: 20,
         });
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
@@ -53,7 +53,7 @@ class Play extends Phaser.Scene {
         }
 
         this.timetext = this.add.text(game.config.width - 200, 20, "", timerConfig);
-        this.highScoreDisplay = this.add.text(game.config.width/2-20, 20, "HiScore: " + this.highScore, timerConfig).setOrigin(0.5,0);
+        this.highScoreDisplay = this.add.text(game.config.width/2-20, 20, "HiScore:" + this.highScore, timerConfig).setOrigin(0.5,0);
         this.playMusic = this.sound.add('backgroundMusic');
         this.playMusic.play({volume: 0.2, loop:true });
         this.startMS;
